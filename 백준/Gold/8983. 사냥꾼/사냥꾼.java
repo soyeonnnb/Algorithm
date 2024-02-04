@@ -38,6 +38,7 @@ public class Main {
         st = new StringTokenizer(br.readLine());
         for(int i=0;i<M;i++) marr[i] = Integer.parseInt(st.nextToken());
         Arrays.sort(marr);
+//        System.out.println(Arrays.toString(marr));
         Animal[] arr = new Animal[N];
         for(int i=0;i<N;i++) {
             st = new StringTokenizer(br.readLine());
@@ -96,16 +97,18 @@ public class Main {
                 while(s<=e) {
                     int mid = (s+e)/2;
                     if (arr[mid].y <= go) {
-
                         yr = mid;
-                        e = mid-1;
-                    } else {
                         s = mid+1;
+                    } else {
+                        e = mid-1;
                     }
                 }
                 if (yl == -1 || yr == -1) continue;
+//                System.out.println(i+" "+xl+" "+xr+"  ->   "+yl+" "+yr);
                 for(int j=yl;j<=yr;j++) {
+
                     if (!arr[j].checked) {
+//                        System.out.println(arr[j]);
                         answer++;
                         arr[j].checked = true;
                     }
