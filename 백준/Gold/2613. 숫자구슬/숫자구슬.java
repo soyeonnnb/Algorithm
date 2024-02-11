@@ -1,13 +1,14 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.security.interfaces.DSAKey;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        BufferedReader br =new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         int N=Integer.parseInt(st.nextToken());
         int M=Integer.parseInt(st.nextToken());
@@ -15,61 +16,56 @@ public class Main {
         st = new StringTokenizer(br.readLine());
         for(int i=0;i<N;i++) arr[i] = Integer.parseInt(st.nextToken());
         int s = 1;
-        for(int i=0;i<N;i++) s = Math.max(s, arr[i]); // 이 이하로는 만들 수 없다 !
         int e = 0;
-        for(int i=0;i<N;i++) e += arr[i];
-//        int answer = 30000;
-        List<Integer> answerArray = new ArrayList<>();
-        List<Integer> tempArray = new ArrayList<>();
+        for(int i=0;i<N;i++) {
+            s = Math.max(arr[i], s); // 최소 구슬의 최소값
+            e += arr[i]; // 최대 구슬의 수 합
+        }
+        List<Integer> answerList = new ArrayList<>();
+        int answer = s;
+        List<Integer> tempList = new ArrayList<>();
         while(s<=e) {
-            int mid = (s+e)/2; // 이 크기가 최대일 때를 구할거다 !
+            int mid = (s+e)/2;
+            tempList.clear();
+            int group = 0;
+            int cnt = 0;
             int sum = 0;
-            int now = 0;
-            tempArray.clear();
             for(int i=0;i<N;i++) {
-                if ((now == 0 && N-i+tempArray.size() == M) || (now != 0 && N-i+tempArray.size()+1 == M)) {
-                    if (now != 0) {
-                        tempArray.add(now);
-                    }
-                    for(int j=i;j<N;j++) tempArray.add(1);
-                    now = 0;
+                if (N-i == (M-group-(cnt == 0 ? 0 : 1))) {
                     break;
                 }
-                if (sum + arr[i] > mid) { // 지금꺼를 넣으면 안되면
-                    tempArray.add(now);
-                    now = 1;
-                    sum = arr[i];
-                } else if (sum + arr[i] == mid) {
-                    tempArray.add(now+1);
-                    now = 0;
-                    sum = 0;
-                } else {
-                    now++;
+                if (sum + arr[i] < mid) {
                     sum += arr[i];
+                    cnt += 1;
+                } else if (sum + arr[i] == mid) {
+                    tempList.add(cnt+1);
+                    sum = 0;
+                    cnt = 0;
+                    group ++;
+                } else {
+                    tempList.add(cnt);
+                    group ++;
+                    sum = arr[i];
+                    cnt = 1;
                 }
             }
-            if (now != 0) tempArray.add(now);
-            if (tempArray.size() <= M) { // 너무 크게 생각함 !
-//                answer = mid;
-                answerArray.clear();
-                for(int t : tempArray) answerArray.add(t);
-                e = mid-1; // 더 작게 생각해보자
-            } else if (tempArray.size() > M) { // 이렇게 하면 최댓값이 mid가 아님 !
+            if (cnt != 0) {
+                tempList.add(cnt);
+                group++;
+            }
+            for(int i = group;i<M;i++) tempList.add(1);
+            if (group <= M) {
+                e = mid-1;
+                answer = mid;
+                answerList.clear();
+                for(int num:tempList) answerList.add(num);
+            } else {
                 s = mid+1;
             }
         }
-        int answer =0 ;
-        int i=0;
-        for(int n : answerArray) {
-            int temp  =0;
-            for(int j=1;j<=n;j++) {
-                temp += arr[i];
-                i++;
-            }
-//            System.out.println(n+" "+temp);
-            answer = Math.max(temp, answer);
-        }
         System.out.println(answer);
-        for(int a : answerArray) System.out.print(a+" ");
+        for(int num : answerList) System.out.print(num+" ");
+
+
     }
 }
