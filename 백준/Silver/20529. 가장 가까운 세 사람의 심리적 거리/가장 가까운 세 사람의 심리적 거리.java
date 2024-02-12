@@ -1,33 +1,24 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int T=Integer.parseInt(br.readLine());
         StringTokenizer st;
-        int[][][][] arr;
-        int[] now = new int[4];
+        Map<String, Integer> map = new TreeMap<>();
         List<String> list = new ArrayList<>();
         test: for(int tc=1;tc<=T;tc++) {
             int N=Integer.parseInt(br.readLine());
             st = new StringTokenizer(br.readLine());
-            arr = new int[2][2][2][2];
+            map.clear();
             list.clear();
             for(int i=0;i<N;i++) {
                 String str = st.nextToken();
-                Arrays.fill(now, 0);
-                if (str.charAt(0) == 'I') now[0] = 1;
-                if (str.charAt(1) == 'N') now[1] = 1;
-                if (str.charAt(2) == 'F') now[2] = 1;
-                if (str.charAt(3) == 'P') now[3] = 1;
-                arr[now[0]][now[1]][now[2]][now[3]] ++;
-                if (arr[now[0]][now[1]][now[2]][now[3]] == 3) {
+                map.put(str, map.getOrDefault(str, 0)+1);
+                if (map.get(str) == 3) {
                     System.out.println(0);
                     continue test;
                 }
