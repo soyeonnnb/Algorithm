@@ -7,13 +7,11 @@ import java.util.StringTokenizer;
 public class Main {
     private static int N, M, answer;
     private static boolean[] arr;
-    private static int[] visited;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N=Integer.parseInt(br.readLine());
         M=Integer.parseInt(br.readLine());
         arr = new boolean[10];
-        visited = new int[1500000];
         if (M != 0) {
             StringTokenizer st = new StringTokenizer(br.readLine());
             for(int i=0;i<M;i++) arr[Integer.parseInt(st.nextToken())] = true;
@@ -22,7 +20,6 @@ public class Main {
         if (!arr[0]) answer = Math.min(answer, N+1);
         for(int i=1;i<=9;i++) {
             if (!arr[i]) {
-                visited[i] = 1;
                 recur(i, 1);
             }
         }
