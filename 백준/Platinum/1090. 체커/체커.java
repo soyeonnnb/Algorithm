@@ -21,20 +21,22 @@ public class Main {
             yset.add(arr[i][1]);
         }
         StringBuilder sb = new StringBuilder();
-        sb.append(0+" ");
+        int[] result = new int[N+1];
+        Arrays.fill(result, Integer.MAX_VALUE);
         PriorityQueue<Integer> queue = new PriorityQueue<>();
-        for(int n=2;n<=N;n++) { // n개가 모이는 것
-            int answer = Integer.MAX_VALUE;
-            for(Integer x : xset) {
-                for(Integer y : yset) {
-                    queue.clear();
-                    for(int i=0;i<N;i++) queue.add(Math.abs(x - arr[i][0]) + Math.abs(y - arr[i][1]));
-                    int temp = 0;
-                    for(int i=0;i<n;i++) temp += queue.poll();
-                    answer = Math.min(answer, temp);
+        for(Integer x : xset) {
+            for(Integer y : yset) {
+                queue.clear();
+                for(int i=0;i<N;i++) queue.add(Math.abs(x - arr[i][0]) + Math.abs(y - arr[i][1]));
+                int temp = 0;
+                for(int i=1;i<=N;i++) {
+                    temp += queue.poll();
+                    result[i] = Math.min(result[i], temp);
                 }
             }
-            sb.append(answer+" ");
+        }
+        for(int n=1;n<=N;n++) { // n개가 모이는 것
+            sb.append(result[n]+" ");
         }
         System.out.println(sb);
 
