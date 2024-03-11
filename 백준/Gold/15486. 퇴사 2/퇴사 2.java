@@ -5,16 +5,13 @@ import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
-    private static int N;
-    private static int[][] arr;
-    private static int[] result;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        N=Integer.parseInt(br.readLine());
-        arr = new int[N][2];
+        int N=Integer.parseInt(br.readLine());
+        int[][] arr = new int[N][2];
         StringTokenizer st;
-        result = new int[N+1];
+        int[] result = new int[N+1];
         for(int i=0;i<N;i++) {
             st = new StringTokenizer(br.readLine());
             for(int j=0;j<2;j++) arr[i][j] = Integer.parseInt(st.nextToken());
