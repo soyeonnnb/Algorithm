@@ -5,31 +5,19 @@ import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
-
-    private static int N;
-    private static int[] arr;
-    private static int[][] result;
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        N=Integer.parseInt(br.readLine());
-        arr = new int[N];
-        result = new int[N][N];
+        int N = Integer.parseInt(br.readLine());
+        int[] arr = new int[N+1];
         StringTokenizer st = new StringTokenizer(br.readLine());
-        for(int i=0;i<N;i++) arr[i] = Integer.parseInt(st.nextToken());
-        for(int i=0;i<N;i++) Arrays.fill(result[i], -1);
-        System.out.println(recur(0, N-1));
-    }
-    private static int recur(int s, int e) {
-        if (s >= e) {
-            return 0;
+        for(int i=1;i<=N;i++) arr[i] = Integer.parseInt(st.nextToken());
+        int[][] dp = new int[N+1][N+1];
+        for(int i=1;i<=N;i++) {
+            for(int j=1;j<=N;j++) {
+                if (arr[i] == arr[N-j+1]) dp[i][j] = dp[i-1][j-1] + 1;
+                else dp[i][j] = Math.max(dp[i][j-1], dp[i-1][j]);
+            }
         }
-        if (result[s][e] != -1) return result[s][e];
-        if (s >= N || e < 0) return 987654321;
-        if (arr[s] == arr[e]) result[s][e] = recur(s+1, e-1);
-        else {
-            result[s][e] = Math.min(recur(s+1, e), recur(s, e-1))+1;
-        }
-        return result[s][e];
+        System.out.println(N-dp[N][N]);
     }
 }
