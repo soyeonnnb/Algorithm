@@ -36,7 +36,7 @@ public class Main {
             mul *= num%10;
             num /= 10;
         }
-        int now = Integer.parseInt(Integer.toString(sum)+Integer.toString(mul));
+        int now = Integer.parseInt(String.valueOf(sum)+mul);
         if (cur == now) arr[cur] = 1;
         else if (now > 100000) arr[cur] = -1;
         else if (visited[now]) arr[cur] = 0;
