@@ -18,7 +18,6 @@ public class Main {
         answerIndex = 0;
         recur(0, 0);
         StringBuilder sb = new StringBuilder();
-
         for(int i=0;i < answerIndex;i++) {
             sb.append(nums[i]).append(" ");
         }
@@ -35,20 +34,23 @@ public class Main {
         }
         if (arr[index] == 0) return;
         // 한글자
-        if (!visited[arr[index]]) {
-            nums[numsIndex] = arr[index];
-            visited[arr[index]] = true;
+        int num = arr[index];
+        if (!visited[num]) {
+            nums[numsIndex] = num;
+            visited[num] = true;
             recur(index+1, numsIndex+1);
-            visited[arr[index]] = false;
+            visited[num] = false;
             if (finished) return;
         }
 
         // 두글자
-        if (index + 1 < N && arr[index]*10 + arr[index+1] <= 50 && !visited[arr[index]*10 + arr[index+1]]) {
-            nums[numsIndex] = arr[index]*10 + arr[index+1];
-            visited[arr[index]*10 + arr[index+1]] = true;
+        if (index + 1 >= N) return;
+        num = arr[index]*10 + arr[index+1];
+        if (index + 1 < N && num <= 50 && !visited[num]) {
+            nums[numsIndex] = num;
+            visited[num] = true;
             recur(index+2, numsIndex+1);
-            visited[arr[index]*10 + arr[index+1]] = false;
+            visited[num] = false;
         }
     }
     private static boolean check(int idx) {
