@@ -24,14 +24,6 @@ public class Main {
             return this.x - o.x;
         }
 
-        @Override
-        public String toString() {
-            return "Node{" +
-                    "x=" + x +
-                    ", potion=" + potion +
-                    ", weight=" + weight +
-                    '}';
-        }
     }
 
     public static void main(String[] args) throws IOException {
@@ -74,14 +66,6 @@ public class Main {
 
                 dp[i][now.potion] = nxt;
                 pq.add(new Node(i, now.potion, nxt));
-
-                if (now.potion < K) {
-                    nxt = now.weight + arr[now.x][i] / 2.0;
-                    if (dp[i][now.potion + 1] != -1 && dp[i][now.potion + 1] <= nxt) continue;
-
-                    dp[i][now.potion + 1] = nxt;
-                    pq.add(new Node(i,now.potion + 1, nxt));
-                }
             }
 
             if (now.potion == K) continue;
